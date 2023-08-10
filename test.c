@@ -3,29 +3,14 @@
 
 int main()
 {
-    char str1[15];
-    char str2[15];
-    int ret;
+    const char *str = "Hello, ";
+    const char *append = "world!";
 
-    myStrcpy(str1, "abcdef");
-    myStrcpy(str2, "ABCDEF");
+    char dest[50];
+    myStrcpy(dest, str);
+    myStrcat(dest, append);
 
-    ret = myStrncmp(str1, str2, 4);
-    printf("%s\n", str1);
-    printf("%s\n", str2);
+    printf("Concatenated string: %s\n", dest);
 
-    if (ret < 0)
-    {
-        printf("str1 is less than str2");
-    }
-    else if (ret > 0)
-    {
-        printf("str2 is less than str1");
-    }
-    else
-    {
-        printf("str1 is equal to str2");
-    }
-
-    return (0);
+    return 0;
 }

@@ -1,6 +1,16 @@
 #ifndef MYSTRING_H
 #define MYSTRING_H
+/**
+*****************************************************************************
+* @file             :mystring.h
+* @author           :Ahmed Elzaki
+* @brief            :an implementation of string.h library
+*****************************************************************************
+*/
+
+/*********************** Includes Section Start ***********************/
 #include <stdint.h>
+/*********************** Includes Section End ***********************/
 
 size_t myStrlen(const char *str)
 {
@@ -298,7 +308,6 @@ char *myStrcpy(char *dest, const char *src)
 {
     unsigned char *TempDestAddress = dest;
     unsigned char *TempSrcAddress = src;
-    size_t Length = myStrlen(src);
 
     if ((NULL == dest) || (NULL == src))
     {
@@ -306,11 +315,11 @@ char *myStrcpy(char *dest, const char *src)
     }
     else
     {
-        while (Length)
+        while (*TempSrcAddress != '\0')
         {
             *TempDestAddress++ = *TempSrcAddress++;
-            Length--;
         }
+        *TempDestAddress = '\0';
     }
 
     return TempDestAddress;
@@ -362,6 +371,177 @@ size_t myStrcspn(const char *str1, const char *str2)
         }
     }
     return flag;
+}
+
+char *myStrpbrk(const char *str1, const char *str2)
+{
+    unsigned char *flag = NULL;
+    if (str1 == NULL || str2 == NULL)
+    {
+        printf("ERROR !!");
+        return flag;
+    }
+    unsigned char *temp = str1;
+    unsigned char *c = str2;
+    size_t n1 = myStrlen(str1);
+    size_t n2 = myStrlen(str2);
+
+    while (n1--)
+    {
+        for (size_t i = 0; i < n2; i++)
+        {
+            if (*temp == c[i])
+            {
+                flag = temp;
+                break;
+            }
+            else
+            {
+                temp++;
+            }
+        }
+        if (flag != NULL)
+        {
+            break;
+        }
+    }
+    return flag;
+}
+
+char *myStrrchr(const char *str, int c)
+{
+    unsigned char *flag = NULL;
+
+    if (str == NULL)
+    {
+        printf("ERROR !!");
+        return flag;
+    }
+    unsigned char *temp = str;
+
+    size_t Lentgh = myStrlen(str);
+
+    while (Lentgh--)
+    {
+        if (*temp == c)
+        {
+            flag = temp;
+            break;
+        }
+        else
+        {
+            temp++;
+        }
+    }
+    return flag;
+}
+
+size_t myStrspn(const char *str1, const char *str2)
+{
+    size_t flag = 0;
+    if (str1 == NULL || str2 == NULL)
+    {
+        printf("ERROR !!");
+        return flag;
+    }
+    unsigned char *temp = str1;
+    unsigned char *c = str2;
+    size_t n1 = myStrlen(str1);
+    size_t n2 = myStrlen(str2);
+
+    while (n2--)
+    {
+        for (size_t i = 0; i < n1; i++)
+        {
+            if (temp[i] == *c)
+            {
+                flag++;
+                break;
+            }
+        }
+        c++;
+    }
+    return flag;
+}
+
+char *myStrstr(const char *haystack, const char *needle)
+{
+    unsigned char *flag = NULL;
+    if (haystack == NULL || needle == NULL)
+    {
+        printf("ERROR !!");
+        return flag;
+    }
+    unsigned char *tempStr = haystack;
+    unsigned char *TempNee = needle;
+    size_t n1 = myStrlen(haystack);
+    size_t n2 = myStrlen(needle);
+
+    while (n1--)
+    {
+        if (*tempStr == *TempNee)
+        {
+            tempStr++;
+            flag = needle;
+            for (size_t i = 1; i < n2; i++)
+            {
+                if (*tempStr != needle[i])
+                {
+                    flag = NULL;
+                    break;
+                }
+                tempStr++;
+            }
+        }
+        if (flag != NULL)
+        {
+            break;
+        }
+        else
+        {
+            tempStr++;
+        }
+    }
+
+    return flag;
+}
+
+char *myStrtok(char *str, const char *delim)
+{
+    if (str == NULL)
+    {
+        return NULL;
+    }
+    size_t n1 = myStrlen(str);
+    unsigned char *tempStr = str;
+    while (n1--)
+    {
+        if (*tempStr == *delim)
+        {
+            *tempStr = '\n';
+        }
+        tempStr++;
+    }
+
+    return str;
+}
+
+size_t myStrxfrm(char *dest, const char *src, size_t n)
+{
+    if (dest == NULL, src == NULL)
+    {
+        return NULL;
+    }
+    unsigned char *tempSrc = src;
+    unsigned char *tempDest = dest;
+
+    while (n--)
+    {
+        *tempDest++ = *tempSrc++;
+    }
+    *tempDest = '\0';
+
+    return myStrlen(dest);
 }
 
 #endif
