@@ -22,7 +22,7 @@ size_t myStrlen(const char *str)
     }
     else
     {
-        while (*str++ != NULL)
+        while (*str++ != '\0')
         {
             Length++;
         }
@@ -32,13 +32,13 @@ size_t myStrlen(const char *str)
 
 void *myMemchr(const void *str, int c, size_t n)
 {
+    const unsigned char *temp = str;
     if (str == NULL)
     {
         return NULL;
     }
     else
     {
-        unsigned char *temp = str;
         while (n--)
         {
             if (*temp == c)
@@ -48,6 +48,7 @@ void *myMemchr(const void *str, int c, size_t n)
             temp++;
         }
     }
+    return temp;
 }
 
 int myMemcmp(const void *str1, const void *str2, size_t n)
@@ -508,17 +509,31 @@ char *myStrstr(const char *haystack, const char *needle)
 
 char *myStrtok(char *str, const char *delim)
 {
-    if (str == NULL)
+    static char *prev = NULL;
+
+    if (prev != NULL)
+    {
+        str = prev;
+    }
+
+    if (str == NULL && prev == NULL)
     {
         return NULL;
     }
+    char *tempStr = str;
     size_t n1 = myStrlen(str);
-    unsigned char *tempStr = str;
+
     while (n1--)
     {
         if (*tempStr == *delim)
         {
-            *tempStr = '\n';
+            *tempStr = '\0';
+            prev = ++tempStr;
+            break;
+        }
+        if (*(tempStr + 1) == '\0')
+        {
+            prev = NULL;
         }
         tempStr++;
     }
